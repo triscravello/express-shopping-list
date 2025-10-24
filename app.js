@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const itemsRoutes = require("./items");
-const ExpressError = require("./middleware/errors");
-const items = require("./fakeDb");
+const itemsRoutes = require("./routes/items");
 
 app.use(express.json());
 app.use("/items", itemsRoutes);
+
+app.use(express.static("public"));
 
 /** 404 handler */
 app.use(function (req, res, next) {

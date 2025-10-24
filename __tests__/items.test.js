@@ -14,7 +14,7 @@ afterEach(function() {
 
 describe("GET /items", function() {
     test("Gets a list of items", async function () {
-        const resp = await request(app).get("/items");
+        const resp = await request(app).get(`/items`);
         expect(resp.statusCode).toBe(200);
         expect(resp.body).toEqual({ items: [item] });
     })

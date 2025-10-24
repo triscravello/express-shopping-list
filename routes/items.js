@@ -1,7 +1,6 @@
 const express = require("express");
 const router = new express.Router();
-const items = require("./fakeDb");
-const ExpressError = require("./middleware/errors");
+let items = require("../fakeDb");
 
 /** GET /items - return list of items */
 router.get("/", (req, res) => {
@@ -15,7 +14,7 @@ router.post("/", (req, res) => {
         return res.status(400).json({ error: "Name and price are required" });
     }
     
-    const newItem = { name, price };;
+    const newItem = { name, price };
     items.push(newItem);
     return res.status(201).json({ added: newItem });
 });
@@ -40,16 +39,18 @@ router.patch("/:name", (req, res) => {
     if (name !== undefined) foundItem.name = name;
     if (price !== undefined) foundItem.price = price;
 
-    return res.json({ updated: foundItem });
+    const updated = { name: foundItem.name, price: foundItem.price };
+
+    return res.json({ updated });
 })
 
 /** DELETE /items/:name -  delete a single item */
 router.delete("/:name", (req, res) => {
-    const itemIndex = items.findIndex(item => item.name === req.params.name);
+    const idx = items.findIndex(item => item.name === req.params.name);
+    const itemIndex = idx;
     if (itemIndex === -1) {
         return res.status(404).json({ error: "Item not found" });
     }
-
     items.splice(itemIndex, 1);
     return res.json({ message: "Deleted" });
 })
